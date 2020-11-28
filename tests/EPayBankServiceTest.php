@@ -40,13 +40,11 @@ class EPayBankServiceTest extends TestCase
         parent::tearDown();
     }
 
-
     /**
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function testVerifyAccount()
     {
-        $requestId = uniqid('9PAY_TEST_RID_' . date('YmdHis') . '_');
         $bankId = '970423';
         $accountNo = '1023020330000';
         $accountType = 0;
@@ -54,7 +52,41 @@ class EPayBankServiceTest extends TestCase
 
         $account = new EPayBankAccount($accountNo, $accountType, $accountName);
 
-        $data = $this->service->verifyAccount($requestId, $bankId, $account);
+        $data = $this->service->verifyAccount($bankId, $account);
+
+        echo "\n" . json_encode($data);
+
+        return $this->assertTrue(true);
+    }
+
+    /**
+     *
+     */
+    public function testTransfer()
+    {
+        $bankId = '970423';
+        $accountNo = '1023020330000';
+        $accountType = 0;
+        $accountName = 'NGUYEN VAN A';
+        $transId = uniqid('9PAY_TEST_TID_' . date('YmdHis') . '_');
+
+        $account = new EPayBankAccount($accountNo, $accountType, $accountName);
+
+        $data = $this->service->transfer($transId, $bankId, $account, 100000, [
+            'content' => 'Test'
+        ]);
+
+        echo "\n" . json_encode($data);
+
+        return $this->assertTrue(true);
+    }
+
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function testCheckTransaction()
+    {
+        $data = $this->service->checkTransaction('9PAY_TEST_TID_20201129011201_5fc292f1c23dc');
 
         echo "\n" . json_encode($data);
 
