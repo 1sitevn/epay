@@ -92,4 +92,16 @@ class EPayBankServiceTest extends TestCase
 
         return $this->assertTrue(true);
     }
+
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function testGetBalance()
+    {
+        $data = $this->service->getBalance();
+
+        echo "\n" . json_encode($data);
+
+        return $this->assertTrue(true);
+    }
 }

@@ -47,6 +47,10 @@ class EPayBankService implements EPayBankInterface
      * @var array|mixed|null
      */
     private $operationCheckTransStatus;
+    /**
+     * @var array|mixed|null
+     */
+    private $operationQueryBalance;
 
     /**
      * EPayBankService constructor.
@@ -62,6 +66,7 @@ class EPayBankService implements EPayBankInterface
         $this->operationVerifyAccount = config('epay.bank.operation_verify_account');
         $this->operationDisburse = config('epay.bank.operation_disburse');
         $this->operationCheckTransStatus = config('epay.bank.operation_check_trans_status');
+        $this->operationQueryBalance = config('epay.bank.operation_query_balance');
     }
 
     /**
@@ -314,6 +319,81 @@ class EPayBankService implements EPayBankInterface
                 $data->AccType,
                 $data->RequestAmount,
                 $data->TransferAmount
+            ]), base64_decode($data->Signature));
+
+            if (!$isVerify) {
+                return [
+                    'error' => [
+                        'code' => 103,
+                        'message' => 'Chữ ký không chính xác',
+                    ]
+                ];
+            }
+
+            return [
+                'data' => $data,
+                'meta_data' => [
+                    'params' => $params,
+                ]
+            ];
+        } catch (\Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    /**
+     * @return array|mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getBalance()
+    {
+        try {
+            $requestId = uniqid($this->partnerCode . '_RID_' . date('YmdHis') . '_');
+            $requestTime = date('Y-m-d H:i:s', time());
+
+            $rsa = new RSA();
+            $rsa->loadKey(file_get_contents($this->privateKeyPath));
+            $rsa->setSignatureMode(RSA::SIGNATURE_PKCS1);
+
+            $params = [
+                'RequestId' => $requestId,
+                'RequestTime' => $requestTime,
+                'PartnerCode' => $this->partnerCode,
+                'Operation' => $this->operationQueryBalance,
+            ];
+
+            $params['Signature'] = base64_encode($rsa->sign(implode('|', $params)));
+
+            $response = $this->getClient()->request('POST', $this->apiUrl, [
+                'http_errors' => false,
+                'verify' => false,
+                'headers' => $this->getHeaders(),
+                'body' => json_encode($params)
+            ]);
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode != 200) {
+                return [
+                    'error' => [
+                        'message' => 'Có lỗi xảy ra. Vui lòng thử lại.',
+                        'status_code' => $statusCode,
+                    ],
+                    'meta_data' => [
+                        'params' => $params,
+                    ]
+                ];
+            }
+
+            $data = json_decode($response->getBody()->getContents());
+
+            $rsa->loadKey(file_get_contents($this->publicKeyPath));
+
+            $isVerify = $rsa->verify(implode('|', [
+                $data->ResponseCode,
+                $data->ResponseMessage,
+                $data->PartnerCode,
+                $data->CurrentBalance
             ]), base64_decode($data->Signature));
 
             if (!$isVerify) {

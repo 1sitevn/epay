@@ -34,4 +34,9 @@ interface EPayBankInterface
      * @return mixed
      */
     public function checkTransaction($referenceId);
+
+    /**
+     * @return mixed
+     */
+    public function getBalance();
 }
