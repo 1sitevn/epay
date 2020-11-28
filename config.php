@@ -1,0 +1,60 @@
+<?php
+
+return [
+    'epay' => [
+        'bank' => [
+            'api_url' => env('EPAY_BANK_API_URL', null),
+            'partner_code' => env('EPAY_BANK_PARTNER_CODE', null),
+            'operation_verify_account' => env('EPAY_BANK_OPERATION_VERIFY_ACCOUNT', null),
+            'operation_disburse' => env('EPAY_BANK_OPERATION_DISBURSE', null),
+            'operation_check_trans_status' => env('EPAY_BANK_OPERATION_CHECK_TRANS_STATUS', null),
+            'operation_query_balance' => env('EPAY_BANK_OPERATION_QUERY_BALANCE', null),
+            'private_key_path' => env('EPAY_BANK_PRIVATE_KEY_PATH', null),
+            'public_key_path' => env('EPAY_BANK_PUBLIC_KEY_PATH', null),
+
+            'data' => [
+                '970423' => 'TPBank',
+                '970418' => 'BIDV',
+                '970436' => 'VietcomBank',
+                '970415' => 'ViettinBank',
+                '970403' => 'SacomBank',
+                '970407' => 'Techcombank',
+                '970405' => 'AgriBank',
+                '970429' => 'SCB',
+                '970406' => 'DongABank',
+                '970400' => 'SaiGonBank',
+                '970414' => 'OceanBank',
+                '970416' => 'ACB',
+                '970434' => 'IVB',
+                '970440' => 'SeaBank',
+                '970441' => 'VIB',
+                '970437' => 'HDBank',
+                '970443' => 'SHB',
+                '970432' => 'VPBank',
+                '970431' => 'EximBank',
+                '970428' => 'NamABank',
+                '970426' => 'MSB',
+                '970425' => 'ABBank',
+                '970422' => 'MBBank',
+                '970409' => 'BacABank',
+                '970412' => 'PVcomBank',
+                '970419' => 'NCBBank',
+                '970438' => 'BAOVIET Bank',
+                '970448' => 'OCB',
+                '970430' => 'PGBank',
+                '970452' => 'KienLongBank',
+                '970408' => 'GPBank',
+                '970427' => 'VietABank',
+                '970454' => 'VietCapitalBank',
+                '970449' => 'LienVietPostBank',
+                '970439' => 'Public bank',
+                '970433' => 'VietBank',
+                '970442' => 'Hongleong Bank',
+                '970457' => 'WooriBank',
+                '970421' => 'VRBank',
+                '970424' => 'ShinhanBank',
+                '970458' => 'UOB',
+            ]
+        ]
+    ]
+];

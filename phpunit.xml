@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit colors="true">
+    <testsuites>
+        <testsuite name="Application Test Suite">
+            <directory suffix="Test.php">./tests</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <includePath>.</includePath>
+        <env name="EPAY_BANK_API_URL" value="https://chihoepay.megacard.vn:3669/Sandbox/PartnerMoneyTransfer"/>
+        <env name="EPAY_BANK_PARTNER_CODE" value="PARTNERTEST02"/>
+        <env name="EPAY_BANK_OPERATION_VERIFY_ACCOUNT" value="9007"/>
+        <env name="EPAY_BANK_OPERATION_DISBURSE" value="9002"/>
+        <env name="EPAY_BANK_OPERATION_CHECK_TRANS_STATUS" value="9003"/>
+        <env name="EPAY_BANK_OPERATION_QUERY_BALANCE" value="9004"/>
+        <env name="EPAY_BANK_PRIVATE_KEY_PATH" value="/private/var/www/packages/epay/storage/credentials/private.pem"/>
+        <env name="EPAY_BANK_PUBLIC_KEY_PATH" value="/private/var/www/packages/epay/storage/credentials/public.pem"/>
+    </php>
+</phpunit>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit colors="true">
+    <testsuites>
+        <testsuite name="Application Test Suite">
+            <directory suffix="Test.php">./tests</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <includePath>.</includePath>
+        <env name="EPAY_BANK_API_URL" value=""/>
+        <env name="EPAY_BANK_PARTNER_CODE" value=""/>
+        <env name="EPAY_BANK_OPERATION_VERIFY_ACCOUNT" value=""/>
+        <env name="EPAY_BANK_OPERATION_DISBURSE" value=""/>
+        <env name="EPAY_BANK_OPERATION_CHECK_TRANS_STATUS" value=""/>
+        <env name="EPAY_BANK_OPERATION_QUERY_BALANCE" value=""/>
+        <env name="EPAY_BANK_PRIVATE_KEY_PATH" value=""/>
+        <env name="EPAY_BANK_PUBLIC_KEY_PATH" value=""/>
+    </php>
+</phpunit>
