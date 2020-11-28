@@ -40,8 +40,9 @@ class EPayBankServiceTest extends TestCase
         parent::tearDown();
     }
 
+
     /**
-     * @throws \Exception
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function testVerifyAccount()
     {
@@ -51,7 +52,9 @@ class EPayBankServiceTest extends TestCase
         $accountType = 0;
         $accountName = 'NGUYEN VAN A';
 
-        $data = $this->service->verifyAccount($requestId, $bankId, $accountNo, $accountType, $accountName);
+        $account = new EPayBankAccount($accountNo, $accountType, $accountName);
+
+        $data = $this->service->verifyAccount($requestId, $bankId, $account);
 
         echo "\n" . json_encode($data);
 

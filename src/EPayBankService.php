@@ -62,17 +62,14 @@ class EPayBankService implements EPayBankInterface
         return $this->client;
     }
 
-
     /**
      * @param $requestId
      * @param $bankId
-     * @param $accountNo
-     * @param $accountType
-     * @param $accountName
+     * @param EPayBankAccount $account
      * @return array|mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function verifyAccount($requestId, $bankId, $accountNo, $accountType, $accountName)
+    public function verifyAccount($requestId, $bankId, EPayBankAccount $account)
     {
         try {
             $requestTime = date('Y-m-d H:i:s', time());
@@ -87,9 +84,9 @@ class EPayBankService implements EPayBankInterface
                 'PartnerCode' => $this->partnerCode,
                 'Operation' => $this->operationVerifyAccount,
                 'BankNo' => $bankId,
-                'AccNo' => $accountNo,
-                'AccType' => $accountType,
-                'AccountName' => $accountName,
+                'AccNo' => $account->getAccountNo(),
+                'AccType' => $account->getAccountType(),
+                'AccountName' => $account->getAccountName(),
             ];
 
             $params['Signature'] = base64_encode($rsa->sign(implode('|', $params)));
@@ -107,7 +104,7 @@ class EPayBankService implements EPayBankInterface
                 return [
                     'error' => [
                         'message' => 'Có lỗi xảy ra. Vui lòng thử lại.',
-                        'status_code' => $statusCode
+                        'status_code' => $statusCode,
                     ],
                     'meta_data' => [
                         'params' => $params,
@@ -148,6 +145,20 @@ class EPayBankService implements EPayBankInterface
             throw $exception;
         }
     }
+
+    /**
+     * @param $requestId
+     * @param $bankId
+     * @param EPayBankAccount $account
+     * @param $amount
+     * @param array $options
+     * @return mixed|void
+     */
+    public function transfer($requestId, $bankId, EPayBankAccount $account, $amount, $options = [])
+    {
+        // TODO: Implement transfer() method.
+    }
+
 
     /**
      * @return array
